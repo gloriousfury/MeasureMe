@@ -1,6 +1,10 @@
 package com.taiyeoloriade.measureme.ui.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +22,11 @@ import com.taiyeoloriade.measureme.adapter.MeasureListAdapter;
 import com.taiyeoloriade.measureme.adapter.SingleListAdapter;
 import com.taiyeoloriade.measureme.model.MeasureActivity;
 import com.taiyeoloriade.measureme.model.MeasureList;
+import com.taiyeoloriade.measureme.utility.AlarmReceiver;
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
+        scheduleAlarm();
 
 //            MeasureList first = new MeasureList();
 //            first.setList_name("Daily");
@@ -76,7 +83,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void scheduleAlarm() {
 
+
+        Date dat  = new Date();//initializes to now
+        Calendar cal_alarm = Calendar.getInstance();
+        Calendar cal_now = Calendar.getInstance();
+        cal_now.setTime(dat);
+        cal_alarm.setTime(dat);
+        cal_alarm.set(Calendar.HOUR_OF_DAY,10);//set the alarm time
+        cal_alarm.set(Calendar.MINUTE, 0);
+        cal_alarm.set(Calendar.SECOND,0);
+//        if(cal_alarm.before(cal_now)){//if its in the past increment
+//            cal_alarm.add(Calendar.DATE,1);
+//        }
+        //SET YOUR AlarmManager here
+
+
+        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+        //set the alarm for particular time
+
+    }
 
 
     @Override
