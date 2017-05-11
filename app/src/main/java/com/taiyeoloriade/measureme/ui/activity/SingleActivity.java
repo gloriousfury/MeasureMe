@@ -56,16 +56,15 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
 
     FloatingActionButton fab;
-    RecyclerView recyclerView;
     DatabaseHelper db;
     EditText edt_description;
     ImageView back;
     static Slider slider;
     String KEY_DESCRIPTION = "description";
     String KEY_PERCENTAGE = "percentage";
+    String KEY_ACTIVITY_ID = "activity_id";
     String KEY_ID = "id";
     int activity_id;
-    String description;
     ColumnChartView columnChartView;
 
     private ColumnChartView chart;
@@ -76,6 +75,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
     private boolean hasLabelForSelected = false;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +84,11 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         edt_description = (EditText) findViewById(R.id.edt_description);
         back = (ImageView) findViewById(R.id.back_arrow);
         slider = (Slider) findViewById(R.id.slider);
-//        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         columnChartView = (ColumnChartView) findViewById(R.id.chart);
 
 
-//        fab.setOnClickListener(this);
+        fab.setOnClickListener(this);
         back.setOnClickListener(this);
 
         db = new DatabaseHelper(this);
@@ -99,8 +99,8 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         activity_id = data.getIntExtra(KEY_ID, 0);
         slider.setValue(currentPercentage, TRUE);
 
-//        BuildChart();
-        generateDefaultData();
+
+//        generateDefaultData();
 
 
 
@@ -218,6 +218,14 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
                 db.closeDB();
 //                db.deleteToDo(activity_id);
                 onBackPressed();
+
+
+                break;
+
+            case R.id.fab:
+                Intent openChart = new Intent(this,StatActivity.class);
+                openChart.putExtra(KEY_ACTIVITY_ID,activity_id);
+                startActivity(openChart);
 
 
                 break;

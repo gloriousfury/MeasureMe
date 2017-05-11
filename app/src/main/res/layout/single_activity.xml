@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -101,20 +101,26 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/two_hundred"
             android:layout_margin="@dimen/ten">
+            
+            <!--<lecho.lib.hellocharts.view.ColumnChartView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/two_fifty"-->
+                <!--android:layout_margin="@dimen/ten"-->
+                <!--android:id="@+id/chart"-->
+                <!--/>-->
+            
 
-        <!--<lecho.lib.hellocharts.view.LineChartView-->
-            <!--android:id="@+id/chart"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/two_fifty"-->
-            <!--android:layout_margin="@dimen/ten" />-->
 
-            <lecho.lib.hellocharts.view.ColumnChartView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/two_fifty"
-                android:layout_margin="@dimen/ten"
-                android:id="@+id/chart"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/twenty"
+                android:layout_gravity="center"
+                android:text="If you dream it you can do it - Mohammed Alli"
+                android:textSize="22sp"
+                android:textAlignment="center"
                 />
         </android.support.v7.widget.CardView>
     </LinearLayout>
@@ -122,7 +128,17 @@
 
 
 
-    <!--<android.support.design.widget.FloatingActionButton--><!--android:id="@+id/fab"--><!--android:layout_width="65dp"--><!--android:layout_height="65dp"--><!--android:layout_gravity="bottom|end"--><!--android:layout_margin="16dp"--><!--android:src="@drawable/ic_note_add_white_18dp"--><!--app:backgroundTint="@color/blue"--><!--app:elevation="6dp"--><!--app:pressedTranslationZ="12dp" />-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_show_chart_white_24dp"
+        app:backgroundTint="@color/first_color"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        />
 
 
     <!--<FrameLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="bottom|right">-->
@@ -131,4 +147,4 @@
 
     <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="center"--><!--android:text="OK"--><!--android:elevation="16dp"--><!--android:textColor="@android:color/white"--><!--android:textAppearance="?android:attr/textAppearanceMedium" />--><!--</FrameLayout>-->
 
-    </ScrollView>
+    </android.support.design.widget.CoordinatorLayout>

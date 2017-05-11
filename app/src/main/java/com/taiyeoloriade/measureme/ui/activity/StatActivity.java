@@ -48,7 +48,7 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
     String KEY_ID = "id";
     int activity_id;
     String description;
-    String KEY_LIST_ID = "list_id";
+    String KEY_ACTIVITY_ID = "activity_id";
     ColumnChartView columnChartView;
 
     private ColumnChartView chart;
@@ -70,11 +70,11 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
         db = new DatabaseHelper(this);
 
         Intent getData =  getIntent();
-       listId = getData.getIntExtra(KEY_LIST_ID, 0);
+      activity_id = getData.getIntExtra(KEY_ACTIVITY_ID, 0);
 
         db.getAListwithId(listId);
 
-        Toast.makeText(this, "" +listId , Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "" +listId , Toast.LENGTH_LONG).show();
 
         generateDefaultData();
 
@@ -98,9 +98,53 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
-
     private void generateDefaultData() {
+
+        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
+
+
+        List<DateDBModel> list1 = db.getAnActivityWithID(activity_id);
+        int numSubcolumns = 1;
+        int numColumns = list1.size();
+        List<Column> columns = new ArrayList<Column>();
+        List<SubcolumnValue> values;
+
+        for (int i = 0; i < numColumns; i++) {
+
+            int score = list1.get(i).getPercentage_score();
+            String date = list1.get(i).getDate();
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue((float) score, ChartUtils.pickColor()).setLabel(date));
+            }
+
+            Column column = new Column(values);
+            column.setHasLabels(hasLabels);
+//            column.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            columns.add(column);
+        }
+
+        data = new ColumnChartData(columns);
+
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+            if (hasAxesNames) {
+                axisX.setName("Day");
+                axisY.setName("Progress score");
+            }
+            data.setAxisXBottom(axisX);
+            data.setAxisYLeft(axisY);
+        } else {
+            data.setAxisXBottom(null);
+            data.setAxisYLeft(null);
+        }
+
+        columnChartView.setColumnChartData(data);
+
+    }
+
+    private void generateDefaultData1() {
 
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
 

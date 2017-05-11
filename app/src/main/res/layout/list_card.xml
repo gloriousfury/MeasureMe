@@ -2,85 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/seventy"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/five"
         android:layout_marginRight="@dimen/five"
         android:layout_marginTop="@dimen/five"
         android:layout_marginBottom="@dimen/five"
-        app:cardCornerRadius="@dimen/ten"
+        app:cardCornerRadius="@dimen/five"
 
 
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/one_hundred"
+            android:layout_height="match_parent"
             android:orientation="vertical"
 
             >
+
+
+            <ImageView
+                android:id="@+id/img_list"
+                android:layout_width="@dimen/twenty"
+                android:layout_height="@dimen/twenty"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ten"
+                />
 
 
             <TextView
                 android:id="@+id/list_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="@dimen/ten"
+                android:layout_marginLeft="@dimen/ten"
                 android:text="Daily List"
                 android:textColor="@color/alternative_black"
-                android:textSize="17sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/img_list"
                 />
 
-            <ImageView
-                android:id="@+id/indicatorlevel"
-                android:layout_width="@dimen/thirty"
-                android:layout_height="@dimen/thirty"
+
+
+
+
+            <View
+                android:layout_width="@dimen/ten"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/ten"
-                android:layout_marginTop="@dimen/ten"
-                android:src="@drawable/great" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/five"
-                android:layout_marginLeft="@dimen/ten"
-                android:text="9 activities"
+                android:background="@color/seventh_color"
 
                 />
 
-
-            <!--<TextView-->
-            <!--android:id="@+id/reminder"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="No reminder date"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:layout_marginTop="10dp"-->
-
-            <!--/>-->
-
-
-            <!--<TextView-->
-            <!--android:id="@+id/status"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="Done"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:layout_marginTop="10dp"-->
-
-            <!--/>-->
 
 
         </RelativeLayout>

@@ -26,8 +26,11 @@ import com.taiyeoloriade.measureme.R;
 import com.taiyeoloriade.measureme.model.DateDBModel;
 import com.taiyeoloriade.measureme.model.MeasureActivity;
 import com.taiyeoloriade.measureme.model.MeasureList;
+import com.taiyeoloriade.measureme.ui.activity.RecyclerViewClickListener;
 import com.taiyeoloriade.measureme.ui.activity.SingleActivity;
+import com.taiyeoloriade.measureme.ui.activity.SingleActivityList;
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
+import com.taiyeoloriade.measureme.utility.SessionManager;
 
 import java.util.List;
 import java.util.Random;
@@ -43,14 +46,16 @@ import static com.taiyeoloriade.measureme.R.id.slider;
 public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.ViewHolder> {
     Context context;
     private List<MeasureActivity> measureactivitylist;
+    RecyclerViewClickListener recyclerViewClickListener;
     String KEY_DESCRIPTION = "description";
     String KEY_PERCENTAGE = "percentage";
     String KEY_ID = "id";
 
 
-    public SingleListAdapter(Context context, List<MeasureActivity> measureactivitylist) {
+    public SingleListAdapter(Context context, List<MeasureActivity> measureactivitylist, RecyclerViewClickListener mOnClickListener) {
         this.context = context;
         this.measureactivitylist = measureactivitylist;
+        this.recyclerViewClickListener = mOnClickListener;
 
 
     }
@@ -67,7 +72,7 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
             view.setClickable(true);
             view.setOnClickListener(this);
 //            title = (TextView) view.findViewById(menu_item);
-
+            db = new DatabaseHelper(context);
             desc = (TextView) view.findViewById(R.id.description);
             background = (CardView) view.findViewById(R.id.activities_cardLayout);
             delete = (ImageView) view.findViewById(R.id.deleteActivity);
@@ -75,72 +80,65 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
             delete.setOnClickListener(this);
 
 
-//            percCompletion = (TextView) view.findViewById(R.id.completion_percentage);
-//            percBaseline = (TextView) view.findViewById(R.id.completion_baseline);
-//            reminder = (TextView) view.findViewById(R.id.reminder);
-//            status = (TextView) view.findViewById(R.id.status);
-//            createdAt = (TextView) view.findViewById(R.id.createdat);
-
-
         }
 
         @Override
         public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            recyclerViewClickListener.onListItemClick(clickedPosition);
 
-
-            switch (v.getId()) {
-
-                case R.id.deleteActivity:
-
-                    final int Id = measureactivitylist.get(getAdapterPosition()).getId();
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                    alertDialog.setTitle("DELETE");
-                    alertDialog.setMessage("Are you sure you want to delete this activity, tis irreversible");
-
-                    alertDialog.setCancelable(false);
-                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            db.deleteActivity(Id);
-                            db.closeDB();
-//                            AdapterChanged();
-
-
-//ACTION
-                        }
-                    });
-
-                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    });
-
-
-                    alertDialog.show();
-
-
-                    Log.d("Taiye", "Fab 1");
-
-
-                    break;
-
-                default:
-
-                    String desc = measureactivitylist.get(getAdapterPosition()).getDescription().toString();
-                    String perc = "" + measureactivitylist.get(getAdapterPosition()).getPercentage();
-                    String id = "" + measureactivitylist.get(getAdapterPosition()).getId();
+//            switch (v.getId()) {
 //
+//                case R.id.deleteActivity:
+//
+//                    final int Id = measureactivitylist.get(getAdapterPosition()).getId();
+//
+//                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+//                    alertDialog.setTitle("DELETE");
+//                    alertDialog.setMessage("Are you sure you want to delete this activity, tis irreversible");
+//
+//                    alertDialog.setCancelable(false);
+//                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//
+//                            db.deleteActivity(Id);
+//                            notifyDataSetChanged();
+//                            db.closeDB();
+//
+////ACTION
+//                        }
+//                    });
+//
+//                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                            dialog.cancel();
+//                        }
+//                    });
+//
+//
+//                    alertDialog.show();
+//
+//
+//                    Log.d("Taiye", "Fab 1");
+//
+//
+//                    break;
+//
+//                default:
+//
+//                    String desc = measureactivitylist.get(getAdapterPosition()).getDescription().toString();
+//                    String perc = "" + measureactivitylist.get(getAdapterPosition()).getPercentage();
+//                    String id = "" + measureactivitylist.get(getAdapterPosition()).getId();
+////
+//
+//
+//                    Intent singleActivity = new Intent(context, SingleActivity.class);
+//                    singleActivity.putExtra(KEY_DESCRIPTION, measureactivitylist.get(getAdapterPosition()).getDescription());
+//                    singleActivity.putExtra(KEY_PERCENTAGE, measureactivitylist.get(getAdapterPosition()).getPercentage());
+//                    singleActivity.putExtra(KEY_ID, measureactivitylist.get(getAdapterPosition()).getId());
+//                    context.startActivity(singleActivity);
 
-
-                    Intent singleActivity = new Intent(context, SingleActivity.class);
-                    singleActivity.putExtra(KEY_DESCRIPTION, measureactivitylist.get(getAdapterPosition()).getDescription());
-                    singleActivity.putExtra(KEY_PERCENTAGE, measureactivitylist.get(getAdapterPosition()).getPercentage());
-                    singleActivity.putExtra(KEY_ID, measureactivitylist.get(getAdapterPosition()).getId());
-                    context.startActivity(singleActivity);
-
-            }
+//            }
 
 
         }
@@ -155,6 +153,7 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 //        holder.title.setText(title_list.get(position).getTitle());
+        final int Id = measureactivitylist.get(position).getId();
 
 
         holder.desc.setText(measureactivitylist.get(position).getDescription());
@@ -174,7 +173,7 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
         Random randomGenerator = new Random();
         int index = randomGenerator.nextInt(Menucolor.length);
 
-        ChangeScoreView(holder,position);
+        ChangeScoreView(holder, position);
         holder.background.setCardBackgroundColor(ContextCompat.getColor(context, Menucolor[index]));
 
 

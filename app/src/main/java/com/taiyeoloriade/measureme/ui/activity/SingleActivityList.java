@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.taiyeoloriade.measureme.R;
-import com.taiyeoloriade.measureme.adapter.MeasureListAdapter;
 import com.taiyeoloriade.measureme.adapter.SingleListAdapter;
 import com.taiyeoloriade.measureme.model.DateDBModel;
 import com.taiyeoloriade.measureme.model.MeasureActivity;
-import com.taiyeoloriade.measureme.model.MeasureList;
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
 
 import java.text.SimpleDateFormat;
@@ -30,12 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.R.id.list;
 import static android.media.CamcorderProfile.get;
-import static com.taiyeoloriade.measureme.R.id.list_name;
-import static com.taiyeoloriade.measureme.R.id.overallPercentage;
 
-public class SingleActivityList extends AppCompatActivity implements View.OnClickListener {
+public class SingleActivityList extends AppCompatActivity implements View.OnClickListener,RecyclerViewClickListener {
 
 
     FloatingActionButton fab;
@@ -81,7 +75,7 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setTitle(listname + " List");
         calculateOverallPercentage();
         checkDatePosted();
-        SingleListAdapter adapter = new SingleListAdapter(this, lists);
+        SingleListAdapter adapter = new SingleListAdapter(this, lists, this);
         recyclerView.setAdapter(adapter);
 
 
@@ -232,7 +226,7 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
 
         List<MeasureActivity> list1 = db.getAllToDosByListName2(listname);
 
-        SingleListAdapter adapter = new SingleListAdapter(this, list1);
+        SingleListAdapter adapter = new SingleListAdapter(this, list1, this);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -262,6 +256,17 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
         AdapterChanged();
 
         //Do your code here
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+//        Movie movie = mMovieList.get(clickedItemIndex);
+//        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+//        intent.putExtra("movieItem", movie);
+//        startActivity(intent);
+
+        Toast.makeText(this, "I was clicked man, what a great stuff", Toast.LENGTH_SHORT).show();
+
     }
 
 

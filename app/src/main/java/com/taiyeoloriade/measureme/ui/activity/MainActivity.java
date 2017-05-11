@@ -22,7 +22,7 @@ import com.taiyeoloriade.measureme.adapter.MeasureListAdapter;
 import com.taiyeoloriade.measureme.adapter.SingleListAdapter;
 import com.taiyeoloriade.measureme.model.MeasureActivity;
 import com.taiyeoloriade.measureme.model.MeasureList;
-import com.taiyeoloriade.measureme.utility.AlarmReceiver;
+
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
 
 import java.util.Calendar;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<MeasureList> lists;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -66,16 +66,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        db.createMeasureActivity(measureList3,new long[]{0});
 
 
-
         AdapterChanged();
 
 
-            lists = db.getAllLists();
+        lists = db.getAllLists();
 
-            List<MeasureList> allToDos = db.getAllLists();
-            for (MeasureList todo : allToDos) {
-                Log.d("ToDo", todo.getList_name());
-            }
+        List<MeasureList> allToDos = db.getAllLists();
+        for (MeasureList todo : allToDos) {
+            Log.d("ToDo", todo.getList_name());
+        }
 
         MeasureListAdapter adapter = new MeasureListAdapter(this, lists);
         recyclerView.setAdapter(adapter);
@@ -86,25 +85,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void scheduleAlarm() {
 
 
-        Date dat  = new Date();//initializes to now
-        Calendar cal_alarm = Calendar.getInstance();
-        Calendar cal_now = Calendar.getInstance();
-        cal_now.setTime(dat);
-        cal_alarm.setTime(dat);
-        cal_alarm.set(Calendar.HOUR_OF_DAY,10);//set the alarm time
-        cal_alarm.set(Calendar.MINUTE, 0);
-        cal_alarm.set(Calendar.SECOND,0);
-//        if(cal_alarm.before(cal_now)){//if its in the past increment
-//            cal_alarm.add(Calendar.DATE,1);
-//        }
-        //SET YOUR AlarmManager here
+//        Date dat  = new Date();//initializes to now
+//        Calendar cal_alarm = Calendar.getInstance();
+//        Calendar cal_now = Calendar.getInstance();
+//        cal_now.setTime(dat);
+//        cal_alarm.setTime(dat);
+//        cal_alarm.set(Calendar.HOUR_OF_DAY,10);//set the alarm time
+//        cal_alarm.set(Calendar.MINUTE, 0);
+//        cal_alarm.set(Calendar.SECOND,0);
+////        if(cal_alarm.before(cal_now)){//if its in the past increment
+////            cal_alarm.add(Calendar.DATE,1);
+////        }
+//        //SET YOUR AlarmManager here
+//
+//
+//        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+//
+//        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//        alarmManager.setRepeating(AlarmManager.RTC, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+//        //set the alarm for particular time
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 13);
+        calendar.set(Calendar.SECOND, 0);
 
-        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            int day = 86400000;
 
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
-        //set the alarm for particular time
+            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + day, AlarmManager.INTERVAL_DAY, pendingIntent);
+        } else {
+            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+
 
     }
 
@@ -152,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         AdapterChanged();
 
 
-
 //ACTION
                     }
                 });
@@ -167,8 +186,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alertDialog.show();
 
 
-
-
                 Log.d("Taiye", "Fab 1");
                 break;
 
@@ -177,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
     private void AdapterChanged() {
 
         lists = db.getAllLists();
