@@ -25,6 +25,7 @@ import com.taiyeoloriade.measureme.model.MeasureActivity;
 import com.taiyeoloriade.measureme.model.MeasureList;
 
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
+import com.taiyeoloriade.measureme.utils.ViewDialog;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -53,19 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         scheduleAlarm();
 
-//            MeasureList first = new MeasureList();
-//            first.setList_name("Daily");
-//            db.createList(first);
-
-
-//        MeasureActivity measureList = new MeasureActivity("first one",10);
-//        db.createMeasureActivity(measureList,new long[]{0});
-//
-//        MeasureActivity measureList2 = new MeasureActivity("second one",10);
-//        db.createMeasureActivity(measureList2,new long[]{0});
-//
-//        MeasureActivity measureList3 = new MeasureActivity("thired one",10);
-//        db.createMeasureActivity(measureList3,new long[]{0});
 
 
         AdapterChanged();
@@ -90,76 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        i.putExtra("KEY1", "Value to be used by the service");
         startService(i);
 
-//        Date dat  = new Date();//initializes to now
-//        Calendar cal_alarm = Calendar.getInstance();
-//        Calendar cal_now = Calendar.getInstance();
-//        cal_now.setTime(dat);
-//        cal_alarm.setTime(dat);
-//        cal_alarm.set(Calendar.HOUR_OF_DAY,10);//set the alarm time
-//        cal_alarm.set(Calendar.MINUTE, 0);
-//        cal_alarm.set(Calendar.SECOND,0);
-////        if(cal_alarm.before(cal_now)){//if its in the past increment
-////            cal_alarm.add(Calendar.DATE,1);
-////        }
-//        //SET YOUR AlarmManager here
-//
-//
-//        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
-//
-//        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.setRepeating(AlarmManager.RTC, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
-//        //set the alarm for particular time
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(Calendar.HOUR_OF_DAY, 21);
-//        calendar.set(Calendar.MINUTE, 13);
-//        calendar.set(Calendar.SECOND, 0);
-//
-//
-//        Calendar calendar2 = Calendar.getInstance();
-//        calendar2.set(Calendar.HOUR_OF_DAY, 23);
-//        calendar2.set(Calendar.MINUTE, 10);
-//        calendar2.set(Calendar.SECOND, 0);
-//
-//
-//
-//        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-//            int day = 86400000;
-//            int notificationId = 1;
-//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
-//            intent1.putExtra(NOTIFICATION_ID,notificationId);
-//
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + day, AlarmManager.INTERVAL_DAY, pendingIntent);
-//        } else {
-//            int notificationId = 1;
-//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-//        }
-//
-//
-//
-//        if (calendar2.getTimeInMillis() <= System.currentTimeMillis()) {
-//            int day = 86400000;
-//            int notificationId = 2;
-//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever2.class);
-//            intent1.putExtra(NOTIFICATION_ID,notificationId);
-//
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis() + day, AlarmManager.INTERVAL_DAY, pendingIntent);
-//            Toast.makeText(this,"came here",Toast.LENGTH_LONG).show();
-//        } else {
-//            int notificationId = 2;
-//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever2.class);
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-//            Toast.makeText(this,"came here",Toast.LENGTH_LONG).show();
-//        }
 
 
     }
@@ -179,50 +97,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Intent Message = new Intent(this, PostMessageActivity.class);
 //                startActivity(Message);
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-                alertDialog.setMessage("Create a  List (e.g Daily)");
-
-
-                final EditText list_name = new EditText(this);
+//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+//                alertDialog.setMessage("Create a  List (e.g Daily)");
+//
+//
+//                final EditText list_name = new EditText(this);
 
 
 //quantity.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 //lot.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 
-                LinearLayout ll = new LinearLayout(this);
-                ll.setOrientation(LinearLayout.VERTICAL);
 
+                ViewDialog alert = new ViewDialog();
+                alert.showDialog(this, "Error de conexión al servidor");
 
-                ll.addView(list_name);
-                alertDialog.setView(ll);
-
-                alertDialog.setCancelable(false);
-                alertDialog.setPositiveButton("Yeah!!!", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        String listname = list_name.getText().toString();
-                        MeasureList measureList = new MeasureList(list_name.getText().toString());
-                        db.createList(measureList);
-                        db.closeDB();
-                        AdapterChanged();
-
-
-//ACTION
-                    }
-                });
-
-                alertDialog.setNegativeButton("Later man", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                    }
-                });
-
-
-                alertDialog.show();
-
-
-                Log.d("Taiye", "Fab 1");
+//                LinearLayout ll = new LinearLayout(this);
+//                ll.setOrientation(LinearLayout.VERTICAL);
+//
+//
+//                ll.addView(list_name);
+//                alertDialog.setView(ll);
+//
+//                alertDialog.setCancelable(false);
+//                alertDialog.setPositiveButton("Yeah!!!", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                        String listname = list_name.getText().toString();
+//                        MeasureList measureList = new MeasureList(list_name.getText().toString());
+//                        db.createList(measureList);
+//                        db.closeDB();
+//                        AdapterChanged();
+//
+//
+////ACTION
+//                    }
+//                });
+//
+//                alertDialog.setNegativeButton("Later man", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int whichButton) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//
+//                alertDialog.show();
+//
+//
+//                Log.d("Taiye", "Fab 1");
                 break;
 
 

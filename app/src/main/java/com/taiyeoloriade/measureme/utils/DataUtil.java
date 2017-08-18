@@ -97,7 +97,7 @@ public class DataUtil {
 
         JSONObject jObjectInsects = new JSONObject(rawJson);
 
-        JSONArray jArray = jObjectInsects.getJSONArray("insects");
+        JSONArray jArray = jObjectInsects.getJSONArray("quotes");
 
         ArrayList<QuotesModel> quoteArrayList  = new ArrayList<>();
         for (int i = 0; i < jArray.length(); i++) {
