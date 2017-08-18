@@ -46,16 +46,15 @@ import static com.taiyeoloriade.measureme.R.id.slider;
 public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.ViewHolder> {
     Context context;
     private List<MeasureActivity> measureactivitylist;
-    RecyclerViewClickListener recyclerViewClickListener;
+
     String KEY_DESCRIPTION = "description";
     String KEY_PERCENTAGE = "percentage";
     String KEY_ID = "id";
 
 
-    public SingleListAdapter(Context context, List<MeasureActivity> measureactivitylist, RecyclerViewClickListener mOnClickListener) {
+    public SingleListAdapter(Context context, List<MeasureActivity> measureactivitylist) {
         this.context = context;
         this.measureactivitylist = measureactivitylist;
-        this.recyclerViewClickListener = mOnClickListener;
 
 
     }
@@ -84,61 +83,59 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            int clickedPosition = getAdapterPosition();
-            recyclerViewClickListener.onListItemClick(clickedPosition);
+            switch (v.getId()) {
 
-//            switch (v.getId()) {
-//
-//                case R.id.deleteActivity:
-//
-//                    final int Id = measureactivitylist.get(getAdapterPosition()).getId();
-//
-//                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-//                    alertDialog.setTitle("DELETE");
-//                    alertDialog.setMessage("Are you sure you want to delete this activity, tis irreversible");
-//
-//                    alertDialog.setCancelable(false);
-//                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//
-//                            db.deleteActivity(Id);
-//                            notifyDataSetChanged();
-//                            db.closeDB();
+                case R.id.deleteActivity:
+
+                    final int Id = measureactivitylist.get(getAdapterPosition()).getId();
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("DELETE");
+                    alertDialog.setMessage("Are you sure you want to delete this activity, tis irreversible");
+
+                    alertDialog.setCancelable(false);
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            db.deleteActivity(Id);
+                            measureactivitylist.remove(getAdapterPosition());
+                            notifyItemRemoved(getAdapterPosition());
+                            db.closeDB();
 //
 ////ACTION
-//                        }
-//                    });
-//
-//                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int whichButton) {
-//                            dialog.cancel();
-//                        }
-//                    });
-//
-//
-//                    alertDialog.show();
-//
-//
-//                    Log.d("Taiye", "Fab 1");
-//
-//
-//                    break;
-//
-//                default:
-//
-//                    String desc = measureactivitylist.get(getAdapterPosition()).getDescription().toString();
-//                    String perc = "" + measureactivitylist.get(getAdapterPosition()).getPercentage();
-//                    String id = "" + measureactivitylist.get(getAdapterPosition()).getId();
-////
-//
-//
-//                    Intent singleActivity = new Intent(context, SingleActivity.class);
-//                    singleActivity.putExtra(KEY_DESCRIPTION, measureactivitylist.get(getAdapterPosition()).getDescription());
-//                    singleActivity.putExtra(KEY_PERCENTAGE, measureactivitylist.get(getAdapterPosition()).getPercentage());
-//                    singleActivity.putExtra(KEY_ID, measureactivitylist.get(getAdapterPosition()).getId());
-//                    context.startActivity(singleActivity);
+                        }
+                    });
 
-//            }
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.cancel();
+                        }
+                    });
+
+
+                    alertDialog.show();
+
+
+                    Log.d("Taiye", "Fab 1");
+
+
+                    break;
+
+                default:
+
+                    String desc = measureactivitylist.get(getAdapterPosition()).getDescription().toString();
+                    String perc = "" + measureactivitylist.get(getAdapterPosition()).getPercentage();
+                    String id = "" + measureactivitylist.get(getAdapterPosition()).getId();
+////
+
+
+                    Intent singleActivity = new Intent(context, SingleActivity.class);
+                    singleActivity.putExtra(KEY_DESCRIPTION, measureactivitylist.get(getAdapterPosition()).getDescription());
+                    singleActivity.putExtra(KEY_PERCENTAGE, measureactivitylist.get(getAdapterPosition()).getPercentage());
+                    singleActivity.putExtra(KEY_ID, measureactivitylist.get(getAdapterPosition()).getId());
+                    context.startActivity(singleActivity);
+
+            }
 
 
         }

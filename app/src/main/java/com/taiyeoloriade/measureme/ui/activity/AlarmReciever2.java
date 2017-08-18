@@ -9,20 +9,15 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
-
 import com.taiyeoloriade.measureme.R;
 import com.taiyeoloriade.measureme.utility.NotificationID;
-
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by OLORIAKE KEHINDE on 4/9/2017.
  */
 
 
-public class AlarmReciever1 extends BroadcastReceiver{
+public class AlarmReciever2 extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,7 +29,7 @@ public class AlarmReciever1 extends BroadcastReceiver{
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 2,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -43,7 +38,7 @@ public class AlarmReciever1 extends BroadcastReceiver{
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Measure Me")
-                .setContentText("How did ur day go? track it").setSound(alarmSound)
+                .setContentText("log your day").setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});

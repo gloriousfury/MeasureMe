@@ -27,9 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.media.CamcorderProfile.get;
 
-public class SingleActivityList extends AppCompatActivity implements View.OnClickListener,RecyclerViewClickListener {
+
+public class SingleActivityList extends AppCompatActivity implements View.OnClickListener{
 
 
     FloatingActionButton fab;
@@ -75,7 +75,7 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setTitle(listname + " List");
         calculateOverallPercentage();
         checkDatePosted();
-        SingleListAdapter adapter = new SingleListAdapter(this, lists, this);
+        SingleListAdapter adapter = new SingleListAdapter(this, lists);
         recyclerView.setAdapter(adapter);
 
 
@@ -226,7 +226,7 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
 
         List<MeasureActivity> list1 = db.getAllToDosByListName2(listname);
 
-        SingleListAdapter adapter = new SingleListAdapter(this, list1, this);
+        SingleListAdapter adapter = new SingleListAdapter(this, list1);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -256,17 +256,6 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
         AdapterChanged();
 
         //Do your code here
-    }
-
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-//        Movie movie = mMovieList.get(clickedItemIndex);
-//        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-//        intent.putExtra("movieItem", movie);
-//        startActivity(intent);
-
-        Toast.makeText(this, "I was clicked man, what a great stuff", Toast.LENGTH_SHORT).show();
-
     }
 
 

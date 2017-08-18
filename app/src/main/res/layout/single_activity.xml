@@ -6,8 +6,6 @@
     android:orientation="vertical">
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -103,29 +101,40 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/two_hundred"
             android:layout_margin="@dimen/ten">
-            
-            <!--<lecho.lib.hellocharts.view.ColumnChartView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="@dimen/two_fifty"-->
-                <!--android:layout_margin="@dimen/ten"-->
-                <!--android:id="@+id/chart"-->
-                <!--/>-->
-            
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/twenty"
-                android:layout_gravity="center"
-                android:text="If you dream it you can do it - Mohammed Alli"
-                android:textSize="22sp"
-                android:textAlignment="center"
-                />
+                <TextView
+                    android:id="@+id/quote_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/twenty"
+                    android:text="If you dream it you can do it "
+                    android:textAlignment="center"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/quote_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/ten"
+                    android:text="If you dream it you can do it "
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+
+                    />
+
+
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
-
-
 
 
     <android.support.design.widget.FloatingActionButton
@@ -137,8 +146,7 @@
         android:src="@drawable/ic_show_chart_white_24dp"
         app:backgroundTint="@color/first_color"
         app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        />
+        app:pressedTranslationZ="12dp" />
 
 
     <!--<FrameLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="bottom|right">-->
@@ -147,4 +155,4 @@
 
     <!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="center"--><!--android:text="OK"--><!--android:elevation="16dp"--><!--android:textColor="@android:color/white"--><!--android:textAppearance="?android:attr/textAppearanceMedium" />--><!--</FrameLayout>-->
 
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

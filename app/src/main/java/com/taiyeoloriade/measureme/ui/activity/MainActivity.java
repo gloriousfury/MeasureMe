@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.taiyeoloriade.measureme.AlarmService;
 import com.taiyeoloriade.measureme.R;
 import com.taiyeoloriade.measureme.adapter.MeasureListAdapter;
 import com.taiyeoloriade.measureme.adapter.SingleListAdapter;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView recyclerView;
     DatabaseHelper db;
     List<MeasureList> lists;
+    String NOTIFICATION_ID = "notification_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void scheduleAlarm() {
-
+        Intent i = new Intent(this, AlarmService.class);
+// potentially add data to the intent
+//        i.putExtra("KEY1", "Value to be used by the service");
+        startService(i);
 
 //        Date dat  = new Date();//initializes to now
 //        Calendar cal_alarm = Calendar.getInstance();
@@ -104,26 +109,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 //        alarmManager.setRepeating(AlarmManager.RTC, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 //        //set the alarm for particular time
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE, 13);
-        calendar.set(Calendar.SECOND, 0);
-
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-            int day = 86400000;
-
-            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + day, AlarmManager.INTERVAL_DAY, pendingIntent);
-        } else {
-            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 21);
+//        calendar.set(Calendar.MINUTE, 13);
+//        calendar.set(Calendar.SECOND, 0);
+//
+//
+//        Calendar calendar2 = Calendar.getInstance();
+//        calendar2.set(Calendar.HOUR_OF_DAY, 23);
+//        calendar2.set(Calendar.MINUTE, 10);
+//        calendar2.set(Calendar.SECOND, 0);
+//
+//
+//
+//        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+//            int day = 86400000;
+//            int notificationId = 1;
+//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
+//            intent1.putExtra(NOTIFICATION_ID,notificationId);
+//
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + day, AlarmManager.INTERVAL_DAY, pendingIntent);
+//        } else {
+//            int notificationId = 1;
+//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever1.class);
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+//        }
+//
+//
+//
+//        if (calendar2.getTimeInMillis() <= System.currentTimeMillis()) {
+//            int day = 86400000;
+//            int notificationId = 2;
+//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever2.class);
+//            intent1.putExtra(NOTIFICATION_ID,notificationId);
+//
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis() + day, AlarmManager.INTERVAL_DAY, pendingIntent);
+//            Toast.makeText(this,"came here",Toast.LENGTH_LONG).show();
+//        } else {
+//            int notificationId = 2;
+//            Intent intent1 = new Intent(MainActivity.this, AlarmReciever2.class);
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, notificationId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+//            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+//            Toast.makeText(this,"came here",Toast.LENGTH_LONG).show();
+//        }
 
 
     }

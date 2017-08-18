@@ -24,13 +24,19 @@ import com.taiyeoloriade.measureme.R;
 import com.taiyeoloriade.measureme.adapter.SingleListAdapter;
 import com.taiyeoloriade.measureme.model.DateDBModel;
 import com.taiyeoloriade.measureme.model.MeasureActivity;
+import com.taiyeoloriade.measureme.model.QuotesModel;
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
+import com.taiyeoloriade.measureme.utils.DataUtil;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -49,7 +55,7 @@ import static android.R.attr.lines;
 import static android.R.attr.numColumns;
 import static android.R.id.list;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static com.taiyeoloriade.measureme.R.id.chart;
+
 import static java.lang.Boolean.TRUE;
 
 public class SingleActivity extends AppCompatActivity implements View.OnClickListener {
@@ -59,6 +65,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
     DatabaseHelper db;
     EditText edt_description;
     ImageView back;
+    TextView quote_message, quote_author;
     static Slider slider;
     String KEY_DESCRIPTION = "description";
     String KEY_PERCENTAGE = "percentage";
@@ -83,9 +90,11 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         edt_description = (EditText) findViewById(R.id.edt_description);
         back = (ImageView) findViewById(R.id.back_arrow);
+        quote_author = (TextView) findViewById(R.id.quote_author);
+        quote_message = (TextView) findViewById(R.id.quote_message);
         slider = (Slider) findViewById(R.id.slider);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        columnChartView = (ColumnChartView) findViewById(R.id.chart);
+
 
 
         fab.setOnClickListener(this);
@@ -100,10 +109,30 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         slider.setValue(currentPercentage, TRUE);
 
 
-//        generateDefaultData();
+    setQuoteData();
 
 
 
+    }
+
+    private void setQuoteData() {
+        DataUtil dataUtilInstance = new DataUtil(this);
+
+        ArrayList<QuotesModel> quoteArray = null;
+        try {
+            quoteArray = dataUtilInstance.readQuotesFromResources();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Random r = new Random();
+        int i = r.nextInt(quoteArray.size()-1);
+
+        String message  = quoteArray.get(i).getQuoteText();
+        String author = quoteArray.get(i).getQuoteAuthor();
+        quote_message.setText(message);
+        quote_author.setText(author);
     }
 
 

@@ -11,6 +11,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.rey.material.widget.Slider;
 import com.taiyeoloriade.measureme.R;
 import com.taiyeoloriade.measureme.model.DateDBModel;
@@ -59,18 +68,21 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
     private boolean hasLabelForSelected = false;
     int listId;
     String listName;
+    BarChart bar_chart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liststat);
 
-        columnChartView = (ColumnChartView) findViewById(R.id.chart);
+        bar_chart = (BarChart) findViewById(R.id.bar_chart);
+
 
         db = new DatabaseHelper(this);
 
-        Intent getData =  getIntent();
-      activity_id = getData.getIntExtra(KEY_ACTIVITY_ID, 0);
+        Intent getData = getIntent();
+        activity_id = getData.getIntExtra(KEY_ACTIVITY_ID, 0);
 
         db.getAListwithId(listId);
 
@@ -79,23 +91,7 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
         generateDefaultData();
 
 
-
     }
-
-
-
-
-
-
-
-    private String getDateTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-
-
 
 
     private void generateDefaultData() {
@@ -104,45 +100,104 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
 
 
         List<DateDBModel> list1 = db.getAnActivityWithID(activity_id);
-        int numSubcolumns = 1;
         int numColumns = list1.size();
-        List<Column> columns = new ArrayList<Column>();
-        List<SubcolumnValue> values;
+
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        final String[] labels = new String[numColumns];
+        int counter = 1;
+
 
         for (int i = 0; i < numColumns; i++) {
 
             int score = list1.get(i).getPercentage_score();
-            String date = list1.get(i).getDate();
-            values = new ArrayList<SubcolumnValue>();
-            for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) score, ChartUtils.pickColor()).setLabel(date));
+            if (score > 10) {
+                String date = list1.get(i).getDate();
+                entries.add(new BarEntry(score, i));
+                labels[i] = date;
+
+
             }
 
-            Column column = new Column(values);
-            column.setHasLabels(hasLabels);
-//            column.setHasLabelsOnlyForSelected(hasLabelForSelected);
-            columns.add(column);
         }
+        Toast.makeText(StatActivity.this, labels[1], Toast.LENGTH_LONG).show();
+        BarDataSet dataset = new BarDataSet(entries, "# performance scores");
 
-        data = new ColumnChartData(columns);
+        BarData data = new BarData(dataset);
+        bar_chart.setData(data);
+        XAxis xAxis = bar_chart.getXAxis();
+        xAxis.setDrawLabels(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new MyXAxisValueFormatter(labels));
 
-        if (hasAxes) {
-            Axis axisX = new Axis();
-            Axis axisY = new Axis().setHasLines(true);
-            if (hasAxesNames) {
-                axisX.setName("Day");
-                axisY.setName("Progress score");
-            }
-            data.setAxisXBottom(axisX);
-            data.setAxisYLeft(axisY);
-        } else {
-            data.setAxisXBottom(null);
-            data.setAxisYLeft(null);
-        }
 
-        columnChartView.setColumnChartData(data);
+//
+//        xAxis.setValueFormatter(new IAxisValueFormatter()
+//        {
+//
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis)
+//            {
+//                System.out.println(value);
+//                if(((int)value)<labels.length)
+//                {
+//                    return  (labels[(int)value]);
+//                }
+//                else
+//                {
+//                    return "";
+//                }
+//            }
+//
+//
+//        });
+//
+//
+//        xAxis.setValueFormatter(new IAxisValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                int valueInt = (int) value;
+//                String dayNo ;
+//
+//
+//
+//                    dayNo = "Day:" +String.valueOf(valueInt+1);
+//
+//
+//
+//                return dayNo;
+//            }
+//        });
+
 
     }
+
+
+
+    public class MyXAxisValueFormatter implements IAxisValueFormatter {
+
+        private String[] mValues;
+
+        public MyXAxisValueFormatter(String[] values) {
+            this.mValues = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            // "value" represents the position of the label on the axis (x or y)
+            return mValues[(int) value];
+        }
+
+        /** this is only needed if numbers are returned, else return 0 */
+
+        public int getDecimalDigits() { return 0; }
+
+
+    }
+
+
+
 
     private void generateDefaultData1() {
 
@@ -196,7 +251,6 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 //
-
 
 
 }

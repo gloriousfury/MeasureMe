@@ -3,6 +3,7 @@
     package="com.taiyeoloriade.measureme">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -36,8 +37,20 @@
 
         </activity>
 
-        <receiver android:name=".ui.activity.AlarmReciever1" />
+        <receiver android:name=".ui.activity.AlarmReciever1">
+        </receiver>
 
+        <service android:name=".AlarmService" >
+        </service>
+
+        <receiver android:name=".ui.activity.AlarmReciever2" />
+
+
+        <receiver android:name=".ui.activity.AlarmBroadcastService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
