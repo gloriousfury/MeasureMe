@@ -98,36 +98,45 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
 
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
 
-
+//
         List<DateDBModel> list1 = db.getAnActivityWithID(activity_id);
-        int numColumns = list1.size()-1;
-        Toast.makeText(StatActivity.this, numColumns, Toast.LENGTH_LONG).show();
-
+        int numColumns = list1.size();
+//        Toast.makeText(StatActivity.this, String.valueOf(numColumns), Toast.LENGTH_LONG).show();
+//
         ArrayList<BarEntry> entries = new ArrayList<>();
         final String[] labels = new String[numColumns];
 
+        if (numColumns > 1) {
+            for (int i = 0; i <= numColumns - 1; i++) {
 
-        for (int i = 0; i < numColumns; i++) {
-
-            double score = list1.get(i).getPercentage_score();
+                double score = list1.get(i).getPercentage_score();
 //            if (score > 10) {
-            String date = list1.get(i).getDate();
+                String date = list1.get(i).getDate();
+                Toast.makeText(StatActivity.this, date, Toast.LENGTH_LONG).show();
+                entries.add(new BarEntry(i + 1, (float) score));
+//            labels[i] = date;
+
+
+            }
+
+        } else {
+            double score = list1.get(0).getPercentage_score();
+//            if (score > 10) {
+            String date = list1.get(0).getDate();
             Toast.makeText(StatActivity.this, date, Toast.LENGTH_LONG).show();
-            entries.add(new BarEntry(i + 1, (float) score));
-            labels[i] = date;
-
-
+            entries.add(new BarEntry(0 + 1, (float) score));
+            labels[0] = date;
         }
 //        Toast.makeText(StatActivity.this, labels[1], Toast.LENGTH_LONG).show();
-//        BarDataSet dataset = new BarDataSet(entries, "# performance scores");
-//
-//        BarData data = new BarData(dataset);
-//        bar_chart.setData(data);
-//        XAxis xAxis = bar_chart.getXAxis();
-//        xAxis.setDrawLabels(true);
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setValueFormatter(new MyXAxisValueFormatter(labels));
+        BarDataSet dataset = new BarDataSet(entries, "# performance scores");
+
+        BarData data = new BarData(dataset);
+        bar_chart.setData(data);
+        XAxis xAxis = bar_chart.getXAxis();
+        xAxis.setDrawLabels(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new MyXAxisValueFormatter(labels));
 
 
 //
@@ -183,7 +192,15 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
-            return mValues[(int) value];
+            if(mValues.length>1){
+
+                return mValues[(int) value-1];
+            }else{
+
+                return mValues[0];
+            }
+
+
         }
 
         /**
