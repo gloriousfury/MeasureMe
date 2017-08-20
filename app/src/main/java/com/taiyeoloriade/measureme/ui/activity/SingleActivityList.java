@@ -40,7 +40,7 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
     String KEY_LIST_ID = "list_id";
     String listname;
     int listid;
-    int score;
+    float score;
     int scoreBaseline;
     TextView overallPercentage, viewStats;
     int PercentageResult;
@@ -82,18 +82,16 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
     }
 
     private void calculateOverallPercentage() {
-        lists = db.getAllToDosByListName2(listname);
+        lists = db.getAllToDosByListName2(this,listname);
 
         score = 0;
-
-
         for (int i = 0; i < lists.size(); i++) {
 
             score += lists.get(i).getPercentage();
         }
 
 //        Toast.makeText(this, " " + score, Toast.LENGTH_LONG).show();
-        scoreBaseline = 50 * lists.size();
+        scoreBaseline = 5 * lists.size();
         PercentageResult = (int) (((double) score / (double) scoreBaseline) * 100);
 
         overallPercentage.setText("  " + PercentageResult + "%");
@@ -224,7 +222,7 @@ public class SingleActivityList extends AppCompatActivity implements View.OnClic
 
     private void AdapterChanged() {
 
-        List<MeasureActivity> list1 = db.getAllToDosByListName2(listname);
+        List<MeasureActivity> list1 = db.getAllToDosByListName2(this,listname);
 
         SingleListAdapter adapter = new SingleListAdapter(this, list1);
 

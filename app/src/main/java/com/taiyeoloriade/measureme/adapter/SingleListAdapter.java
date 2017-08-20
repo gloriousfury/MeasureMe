@@ -188,8 +188,10 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
 
         List<DateDBModel> lists = db.getAnActivityWithID(measureactivitylist.get(position).getId());
 
-        int single_score = 0;
-        int score = 0;
+
+
+        double single_score = 0;
+        double score = 0;
 
 
         for (int i = 0; i < lists.size(); i++) {
@@ -198,8 +200,11 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
         }
 
 //        Toast.makeText(this, " " + score, Toast.LENGTH_LONG).show();
-        int scoreBaseline = 50 * lists.size();
-        score = (int) (((double) single_score / (double) scoreBaseline) * 100);
+        int scoreBaseline = 5 * lists.size();
+        score =  ( single_score / (double) scoreBaseline)*100;
+
+
+//        Toast.makeText(context,String.valueOf(score) +" List Size = " + String.valueOf(lists.size()),Toast.LENGTH_LONG).show();
 
         if (score <= 10) {
 

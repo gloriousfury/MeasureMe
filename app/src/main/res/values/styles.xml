@@ -15,7 +15,7 @@
 
     </style>
 
-    <style name="insectRatingBar" parent="@android:style/Widget.RatingBar">
+    <style name="starRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/bug_danger</item>
         <item name="android:minHeight">23dip</item>
         <item name="android:maxHeight">25dip</item>

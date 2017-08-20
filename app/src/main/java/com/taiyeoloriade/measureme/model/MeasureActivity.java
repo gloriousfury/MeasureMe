@@ -9,8 +9,8 @@ public class MeasureActivity {
 
     int id;
     String description;
-    int percentage;
-    int percentageBaseline;
+    double percentage;
+    double percentageBaseline;
     String listname;
     String remindertime;
     int status;
@@ -21,7 +21,7 @@ public class MeasureActivity {
     public MeasureActivity() {
     }
 
-    public MeasureActivity(String description, int percentage, int percentageBaseline, String listname, int status) {
+    public MeasureActivity(String description, double percentage, double percentageBaseline, String listname, int status) {
         this.description = description;
         this.status = status;
         this.percentage = percentage;
@@ -29,7 +29,7 @@ public class MeasureActivity {
         this.listname = listname;
     }
 
-    public MeasureActivity(int id, String description, int percentage, int percentageBaseline) {
+    public MeasureActivity(int id, String description, double percentage, double percentageBaseline) {
         this.description = description;
         this.id = id;
 
@@ -37,7 +37,7 @@ public class MeasureActivity {
         this.percentage = percentage;
     }
 
-    public MeasureActivity(String description, int percentage, String listname) {
+    public MeasureActivity(String description, double percentage, String listname) {
         this.description = description;
         this.percentage = percentage;
         this.listname = listname;
@@ -64,12 +64,12 @@ public class MeasureActivity {
         this.description = description;
     }
 
-    public void setPercentage(int percentage) {
+    public void setPercentage(double percentage) {
         this.percentage = percentage;
     }
 
 
-    public void setPercentageBaseline(int percentageBaseline) {
+    public void setPercentageBaseline(double percentageBaseline) {
         this.percentageBaseline = percentageBaseline;
     }
 
@@ -95,11 +95,11 @@ public class MeasureActivity {
         return this.description;
     }
 
-    public int getPercentage() {
+    public double getPercentage() {
         return this.percentage;
     }
 
-    public int getPercentageBaseline() {
+    public double getPercentageBaseline() {
         return this.percentageBaseline;
     }
 

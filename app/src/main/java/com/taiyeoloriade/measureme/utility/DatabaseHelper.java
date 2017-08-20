@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_MEASUREACTIVITIES = "CREATE TABLE "
             + TABLE_MEASUREACTIVITIES + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DESC
-            + " TEXT," + KEY_LIST_NAME + " TEXT," + KEY_PERCENTAGE_PROGRESS + " INTEGER," + KEY_PERCENTAGE_BASELINE + " INTEGER," + KEY_REMINDER_TIME
+            + " TEXT," + KEY_LIST_NAME + " TEXT," + KEY_PERCENTAGE_PROGRESS + " REAL," + KEY_PERCENTAGE_BASELINE + " INTEGER," + KEY_REMINDER_TIME
             + " DATETIME," + KEY_CREATED_AT + " DATETIME" + ")";
 
 
@@ -87,8 +87,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_DATE_LIST_ACTIVITY = "CREATE TABLE "
             + TABLE_DATE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_LIST_ID + " INTEGER," + KEY_ACTIVITY_ID + " INTEGER," + KEY_PERCENTAGE_PROGRESS + " INTEGER,"
-            + KEY_AVERAGE_SCORE + " INTEGER,"
+            + KEY_LIST_ID + " INTEGER," + KEY_ACTIVITY_ID + " INTEGER," + KEY_PERCENTAGE_PROGRESS + " REAL,"
+            + KEY_AVERAGE_SCORE + " REAL,"
             + KEY_STORE_DATE + " DATETIME" + ")";
 
 
@@ -130,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public long createActivityDate(Context context,DateDBModel dbmodel) {
+    public long createActivityDate(Context context, DateDBModel dbmodel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return activityDate_id;
     }
 
-    public long createListDate(Context context,DateDBModel dbmodel) {
+    public long createListDate(Context context, DateDBModel dbmodel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -250,7 +250,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MeasureActivity td = new MeasureActivity();
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
                 td.setDescription((c.getString(c.getColumnIndex(KEY_DESC))));
-                td.setPercentage((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+                td.setPercentage((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
 //                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -264,7 +264,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<MeasureActivity> getAllToDosByListName2(String listname) {
+    public List<MeasureActivity> getAllToDosByListName2(Context context, String listname) {
         List<MeasureActivity> activity_list = new ArrayList<MeasureActivity>();
 
 //        String selectQuery = "SELECT  * FROM " + TABLE_MEASUREACTIVITIES + " WHERE "
@@ -280,8 +280,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MeasureActivity td = new MeasureActivity();
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
                 td.setDescription((c.getString(c.getColumnIndex(KEY_DESC))));
-                td.setPercentage((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+                td.setPercentage((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
                 td.setListname((c.getString(c.getColumnIndex(KEY_LIST_NAME))));
+
+//                Toast.makeText(context, String.valueOf((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS)))), Toast.LENGTH_LONG).show();
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
 //                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
@@ -308,8 +310,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DateDBModel td = new DateDBModel();
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
 //                td.setActivity_id((c.getString(c.getColumnIndex(KEY_DESC))));
-                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
-                td.setPercentage_score((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+                td.setAverage_score((c.getDouble(c.getColumnIndex(KEY_AVERAGE_SCORE))));
+                td.setPercentage_score((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
                 td.setDate(c.getString(c.getColumnIndex(KEY_STORE_DATE)));
 
@@ -320,8 +322,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return stored_activities;
     }
-
-
 
 
     public List<DateDBModel> getAnActivityWithIDandDates(int measureId, String Date) {
@@ -333,7 +333,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        String date = getDateTime();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM activitiesandlist WHERE activity_id = " + measureId +
-                " AND store_date ='"+ Date + "'" ,null);
+                " AND store_date ='" + Date + "'", null);
 
 //        SQLiteDatabase db = this.getReadableDatabase();
 //        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_DATE + " WHERE " + KEY_ACTIVITY_ID + " ='" + measureId + "'"
@@ -345,8 +345,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DateDBModel td = new DateDBModel();
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
 //                td.setActivity_id((c.getString(c.getColumnIndex(KEY_DESC))));
-                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
-                td.setPercentage_score((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+                td.setAverage_score((c.getDouble(c.getColumnIndex(KEY_AVERAGE_SCORE))));
+                td.setPercentage_score((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
                 td.setDate(c.getString(c.getColumnIndex(KEY_STORE_DATE)));
 
@@ -359,12 +359,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     public List<DateDBModel> getAnActivityWithID(int measureId) {
         List<DateDBModel> stored_activities = new ArrayList<DateDBModel>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM activitiesandlist WHERE activity_id = " + measureId +" " ,null);
+        Cursor c = db.rawQuery("SELECT * FROM activitiesandlist WHERE activity_id = " + measureId + " ", null);
 
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
@@ -373,7 +372,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
 //                td.setActivity_id((c.getString(c.getColumnIndex(KEY_DESC))));
 //                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
-                td.setPercentage_score((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+                td.setPercentage_score((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
                 td.setDate(c.getString(c.getColumnIndex(KEY_STORE_DATE)));
 
@@ -400,8 +399,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DateDBModel td = new DateDBModel();
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
 //                td.setActivity_id((c.getString(c.getColumnIndex(KEY_DESC))));
-                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
-                td.setPercentage_score((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+                td.setAverage_score((c.getDouble(c.getColumnIndex(KEY_AVERAGE_SCORE))));
+                td.setPercentage_score((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
                 td.setDate(c.getString(c.getColumnIndex(KEY_STORE_DATE)));
 
@@ -420,7 +419,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //                + KEY_LIST_NAME + " = " + listname ;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM activitiesandlist WHERE list_id = " + listId +
-                " AND store_date ='"+ dates + "'" ,null);
+                " AND store_date ='" + dates + "'", null);
 
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
@@ -429,7 +428,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
 //                td.setActivity_id((c.getString(c.getColumnIndex(KEY_DESC))));
 //                td.setList_id((c.getInt(c.getColumnIndex(KEY_LIST_ID))));
-                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
+                td.setAverage_score((c.getDouble(c.getColumnIndex(KEY_AVERAGE_SCORE))));
 //                td.setPercentage_score((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
                 td.setDate(c.getString(c.getColumnIndex(KEY_STORE_DATE)));
@@ -441,8 +440,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return stored_activities;
     }
-
-
 
 
     private String getDateTime() {
@@ -486,7 +483,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void updateActivityDate(DateDBModel dbmodel) {
+    public void updateActivityDate(Context context, DateDBModel dbmodel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -496,14 +493,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_AVERAGE_SCORE, dbmodel.getAverage_score());
         values.put(KEY_PERCENTAGE_PROGRESS, dbmodel.getPercentage_score());
 
-
+//        Toast.makeText(context, String.valueOf(dbmodel.getPercentage_score()), Toast.LENGTH_LONG).show();
         // updating row
         db.update(TABLE_DATE, values, KEY_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(dbmodel.getActivity_id())});
 
+
     }
 
-    public void updateActivityList(Context context,DateDBModel dbmodel) {
+    public void updateActivityList(Context context, DateDBModel dbmodel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -519,7 +517,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(dbmodel.getList_id())});
 
 
-//        Toast.makeText(context,"It updates", Toast.LENGTH_LONG).show();
+//        Toast.makeText(context,String.valueOf(dbmodel.getPercentage_score()), Toast.LENGTH_LONG).show();
 
 
     }

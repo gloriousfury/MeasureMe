@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,7 +81,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
     private boolean hasAxesNames = true;
     private boolean hasLabels = false;
     private boolean hasLabelForSelected = false;
-
+    RatingBar measureRating;
 
 
     @Override
@@ -94,7 +95,9 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         quote_message = (TextView) findViewById(R.id.quote_message);
         slider = (Slider) findViewById(R.id.slider);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
+        measureRating = (RatingBar) findViewById(R.id.ratingBar);
+        measureRating.setRating(3);
+        measureRating.isEnabled();
 
 
         fab.setOnClickListener(this);
@@ -104,13 +107,13 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
         Intent data = getIntent();
         edt_description.setText(data.getStringExtra(KEY_DESCRIPTION));
-        int currentPercentage = data.getIntExtra(KEY_PERCENTAGE, 0);
+        double currentPercentage = data.getDoubleExtra(KEY_PERCENTAGE, 0);
         activity_id = data.getIntExtra(KEY_ID, 0);
-        slider.setValue(currentPercentage, TRUE);
+        slider.setValue((float) currentPercentage, TRUE);
+        measureRating.setRating((float) currentPercentage);
 
-
-    setQuoteData();
-
+//        Toast.makeText(this, String.valueOf(currentPercentage), Toast.LENGTH_LONG).show();
+        setQuoteData();
 
 
     }
@@ -127,9 +130,9 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
         Random r = new Random();
-        int i = r.nextInt(quoteArray.size()-1);
+        int i = r.nextInt(quoteArray.size() - 1);
 
-        String message  = quoteArray.get(i).getQuoteText();
+        String message = quoteArray.get(i).getQuoteText();
         String author = quoteArray.get(i).getQuoteAuthor();
         quote_message.setText(message);
         quote_author.setText(author);
@@ -142,7 +145,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         MeasureActivity measureActivity = new MeasureActivity();
         measureActivity.setId(activity_id);
         measureActivity.setDescription(edt_description.getText().toString());
-        measureActivity.setPercentage(slider.getValue());
+        measureActivity.setPercentage(measureRating.getRating());
         measureActivity.setPercentageBaseline(50);
 
         return measureActivity;
@@ -166,8 +169,9 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
             DateDBModel datedbModel = new DateDBModel();
             datedbModel.setDate(getDateTime());
             datedbModel.setAverage_score(30);
-            datedbModel.setPercentage_score(slider.getValue());
+            datedbModel.setPercentage_score((double) measureRating.getRating());
             datedbModel.setActivity_id(activity_id);
+
 
             db.createActivityDate(this, datedbModel);
 
@@ -176,12 +180,12 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
             DateDBModel datedbModel = new DateDBModel();
 //            datedbModel.setDate(getDateTime());
             datedbModel.setAverage_score(30);
-            datedbModel.setPercentage_score(slider.getValue());
+            datedbModel.setPercentage_score(measureRating.getRating());
 //            datedbModel.setActivity_id(activity_id);
 
-            db.updateActivityDate(datedbModel);
+            db.updateActivityDate(this, datedbModel);
 
-            Toast.makeText(this, "It Updates", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "It Updates", Toast.LENGTH_LONG).show();
 
 
         }
@@ -202,7 +206,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
         for (int i = 0; i < numColumns; i++) {
 
-            int score = list1.get(i).getPercentage_score();
+            double score = list1.get(i).getPercentage_score();
             String date = list1.get(i).getDate();
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
@@ -256,7 +260,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
                 openChart.putExtra(KEY_ACTIVITY_ID,activity_id);
                 startActivity(openChart);
 
-
+//                Toast.makeText(this, String.valueOf(measureRating.getRating()), Toast.LENGTH_LONG).show();
                 break;
 
 

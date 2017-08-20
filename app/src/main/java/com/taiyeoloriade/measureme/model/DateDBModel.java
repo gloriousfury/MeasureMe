@@ -12,8 +12,8 @@ public class DateDBModel {
     int id;
     int activity_id;
     int list_id;
-    int average_score;
-    int percentage_score;
+    double average_score;
+    double percentage_score;
     String date;
 //    String remindertime;
 //    int status;
@@ -24,14 +24,14 @@ public class DateDBModel {
     public DateDBModel() {
     }
 
-    public DateDBModel(int activity_id, int percentage_score, int average_score, String date) {
+    public DateDBModel(int activity_id, double percentage_score, double average_score, String date) {
 //        this.id = id;
         this.activity_id = activity_id;
         this.average_score = average_score;
         this.date = date;
     }
 
-    public DateDBModel(int list_id, int percentage_score, int average_score, String date, String notUsed) {
+    public DateDBModel(int list_id, double percentage_score, double average_score, String date, String notUsed) {
         //        this.id = id;
         this.list_id = list_id;
         this.average_score = average_score;
@@ -65,11 +65,11 @@ public class DateDBModel {
         this.list_id = list_id;
     }
 
-    public void setPercentage_score(int percentage_score) {
+    public void setPercentage_score(double percentage_score) {
         this.percentage_score = percentage_score;
     }
 
-    public void setAverage_score(int average_score) {
+    public void setAverage_score(double average_score) {
         this.average_score = average_score;
     }
 
@@ -89,11 +89,11 @@ public class DateDBModel {
         return this.list_id;
     }
 
-    public int getPercentage_score() {
+    public double getPercentage_score() {
         return this.percentage_score;
     }
 
-    public int getAverage_score() {
+    public double getAverage_score() {
         return this.average_score;
     }
 

@@ -84,7 +84,7 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
         Intent getData = getIntent();
         activity_id = getData.getIntExtra(KEY_ACTIVITY_ID, 0);
 
-        db.getAListwithId(listId);
+//        db.getAListwithId(listId);
 
 //        Toast.makeText(this, "" +listId , Toast.LENGTH_LONG).show();
 
@@ -100,36 +100,34 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
 
 
         List<DateDBModel> list1 = db.getAnActivityWithID(activity_id);
-        int numColumns = list1.size();
-
+        int numColumns = list1.size()-1;
+        Toast.makeText(StatActivity.this, numColumns, Toast.LENGTH_LONG).show();
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         final String[] labels = new String[numColumns];
-        int counter = 1;
 
 
         for (int i = 0; i < numColumns; i++) {
 
-            int score = list1.get(i).getPercentage_score();
-            if (score > 10) {
-                String date = list1.get(i).getDate();
-                entries.add(new BarEntry(score, i));
-                labels[i] = date;
+            double score = list1.get(i).getPercentage_score();
+//            if (score > 10) {
+            String date = list1.get(i).getDate();
+            Toast.makeText(StatActivity.this, date, Toast.LENGTH_LONG).show();
+            entries.add(new BarEntry(i + 1, (float) score));
+            labels[i] = date;
 
-
-            }
 
         }
-        Toast.makeText(StatActivity.this, labels[1], Toast.LENGTH_LONG).show();
-        BarDataSet dataset = new BarDataSet(entries, "# performance scores");
-
-        BarData data = new BarData(dataset);
-        bar_chart.setData(data);
-        XAxis xAxis = bar_chart.getXAxis();
-        xAxis.setDrawLabels(true);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setValueFormatter(new MyXAxisValueFormatter(labels));
+//        Toast.makeText(StatActivity.this, labels[1], Toast.LENGTH_LONG).show();
+//        BarDataSet dataset = new BarDataSet(entries, "# performance scores");
+//
+//        BarData data = new BarData(dataset);
+//        bar_chart.setData(data);
+//        XAxis xAxis = bar_chart.getXAxis();
+//        xAxis.setDrawLabels(true);
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setValueFormatter(new MyXAxisValueFormatter(labels));
 
 
 //
@@ -174,7 +172,6 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     public class MyXAxisValueFormatter implements IAxisValueFormatter {
 
         private String[] mValues;
@@ -189,14 +186,16 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
             return mValues[(int) value];
         }
 
-        /** this is only needed if numbers are returned, else return 0 */
+        /**
+         * this is only needed if numbers are returned, else return 0
+         */
 
-        public int getDecimalDigits() { return 0; }
+        public int getDecimalDigits() {
+            return 0;
+        }
 
 
     }
-
-
 
 
     private void generateDefaultData1() {
@@ -212,7 +211,7 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int i = 0; i < numColumns; i++) {
 
-            int score = list1.get(i).getAverage_score();
+            double score = list1.get(i).getAverage_score();
             String date = list1.get(i).getDate();
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
