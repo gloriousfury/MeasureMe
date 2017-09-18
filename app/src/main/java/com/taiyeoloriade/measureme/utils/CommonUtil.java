@@ -1,6 +1,7 @@
 package com.taiyeoloriade.measureme.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -14,6 +15,41 @@ import java.util.regex.Pattern;
  * Created by Jedidiah on 17/07/2016.
  */
 public class CommonUtil {
+
+    // Shared Preferences
+    SharedPreferences pref;
+
+    // Editor for Shared preferences
+    SharedPreferences.Editor editor;
+    private static final String PREF_NAME = "NyscPref";
+    //SharedPreferences mode
+    int PRIVATE_MODE = 0;
+
+    // Context
+    Context _context;
+
+    public CommonUtil(Context context) {
+        this._context = context;
+        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = pref.edit();
+    }
+
+
+
+
+    private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+
+    public void setFirstTimeLaunch(boolean isFirstTime) {
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean isFirstTimeLaunch() {
+        return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    }
+
+
+
     public static boolean isNetworkAvailable(Context context){
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

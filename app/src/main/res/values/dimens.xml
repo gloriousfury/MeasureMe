@@ -45,6 +45,6 @@
     <dimen name="four_hundred">400dp</dimen>
     <dimen name="four_twenty_five">425dp</dimen>
     <dimen name="four_fifty">450dp</dimen>
-
+    <dimen name="dots_height">30dp</dimen>
 
 </resources>

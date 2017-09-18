@@ -15,6 +15,7 @@ public class DateDBModel {
     double average_score;
     double percentage_score;
     String date;
+    String description;
 //    String remindertime;
 //    int status;
 //    String created_at;
@@ -69,6 +70,10 @@ public class DateDBModel {
         this.percentage_score = percentage_score;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setAverage_score(double average_score) {
         this.average_score = average_score;
     }
@@ -100,6 +105,11 @@ public class DateDBModel {
     public String getDate() {
         return this.date;
     }
+
+    public String getDescription() {
+        return this.description;
+    }
+
 
 
 }

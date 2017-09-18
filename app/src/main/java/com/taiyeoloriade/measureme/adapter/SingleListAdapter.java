@@ -31,9 +31,15 @@ import com.taiyeoloriade.measureme.ui.activity.SingleActivity;
 import com.taiyeoloriade.measureme.ui.activity.SingleActivityList;
 import com.taiyeoloriade.measureme.utility.DatabaseHelper;
 import com.taiyeoloriade.measureme.utility.SessionManager;
+import com.taiyeoloriade.measureme.utils.AppMainServiceEvent;
+
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Random;
+
+
 
 import static android.R.attr.id;
 import static android.media.CamcorderProfile.get;
@@ -50,6 +56,10 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
     String KEY_DESCRIPTION = "description";
     String KEY_PERCENTAGE = "percentage";
     String KEY_ID = "id";
+    Intent responseIntent = new Intent();
+    AppMainServiceEvent event = new AppMainServiceEvent();
+
+
 
 
     public SingleListAdapter(Context context, List<MeasureActivity> measureactivitylist) {
@@ -101,6 +111,11 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
                             measureactivitylist.remove(getAdapterPosition());
                             notifyItemRemoved(getAdapterPosition());
                             db.closeDB();
+                            event.setMainIntent(responseIntent);
+                            event.setEventType(AppMainServiceEvent.RESET_DATA);
+                            EventBus.getDefault().post(event);
+
+
 //
 ////ACTION
                         }
@@ -133,6 +148,7 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
                     singleActivity.putExtra(KEY_DESCRIPTION, measureactivitylist.get(getAdapterPosition()).getDescription());
                     singleActivity.putExtra(KEY_PERCENTAGE, measureactivitylist.get(getAdapterPosition()).getPercentage());
                     singleActivity.putExtra(KEY_ID, measureactivitylist.get(getAdapterPosition()).getId());
+                    Toast.makeText(context, String.valueOf(measureactivitylist.get(getAdapterPosition()).getPercentage()), Toast.LENGTH_LONG).show();
                     context.startActivity(singleActivity);
 
             }
@@ -188,6 +204,7 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
 
         List<DateDBModel> lists = db.getAnActivityWithID(measureactivitylist.get(position).getId());
 
+        List<MeasureActivity> lists1 = db.getListOfMeasureActivityWithId(measureactivitylist.get(position).getId());
 
 
         double single_score = 0;
@@ -201,10 +218,12 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
 
 //        Toast.makeText(this, " " + score, Toast.LENGTH_LONG).show();
         int scoreBaseline = 5 * lists.size();
-        score =  ( single_score / (double) scoreBaseline)*100;
+        score = (single_score / (double) scoreBaseline) * 100;
 
-
-//        Toast.makeText(context,String.valueOf(score) +" List Size = " + String.valueOf(lists.size()),Toast.LENGTH_LONG).show();
+//
+//        Toast.makeText(context,
+//                lists.get(0).getDescription() +
+//                        String.valueOf(lists.get(0).getPercentage_score()) + " List Size = " + String.valueOf(lists.size()), Toast.LENGTH_LONG).show();
 
         if (score <= 10) {
 
@@ -215,12 +234,12 @@ public class SingleListAdapter extends RecyclerView.Adapter<SingleListAdapter.Vi
 
             viewHolder.scoreviewImg.setBackground(ContextCompat.getDrawable(context, R.drawable.scoreview2));
 
-        } else if (score > 10 && score <= 55) {
+        } else if (score > 40 && score <= 64) {
 
 
             viewHolder.scoreviewImg.setBackground(ContextCompat.getDrawable(context, R.drawable.scoreview3));
 
-        } else if (score > 55 && score <= 69) {
+        } else if (score > 65 && score <= 69) {
 
             viewHolder.scoreviewImg.setBackground(ContextCompat.getDrawable(context, R.drawable.scoreview4));
 

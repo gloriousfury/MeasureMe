@@ -74,6 +74,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
     String KEY_ID = "id";
     int activity_id;
     ColumnChartView columnChartView;
+    String activity_title;
 
     private ColumnChartView chart;
     private ColumnChartData data;
@@ -106,13 +107,14 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         db = new DatabaseHelper(this);
 
         Intent data = getIntent();
-        edt_description.setText(data.getStringExtra(KEY_DESCRIPTION));
+        activity_title = data.getStringExtra(KEY_DESCRIPTION);
+        edt_description.setText(activity_title);
         double currentPercentage = data.getDoubleExtra(KEY_PERCENTAGE, 0);
         activity_id = data.getIntExtra(KEY_ID, 0);
         slider.setValue((float) currentPercentage, TRUE);
         measureRating.setRating((float) currentPercentage);
 
-//        Toast.makeText(this, String.valueOf(currentPercentage), Toast.LENGTH_LONG).show();
+        //        Toast.makeText(this, String.valueOf(currentPercentage), Toast.LENGTH_LONG).show();
         setQuoteData();
 
 
@@ -162,13 +164,14 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
     public void checkDatePosted() {
 
         List<DateDBModel> list1 = db.getAnActivityWithIDandDates(activity_id, getDateTime());
-//        Toast.makeText(this, "It created", Toast.LENGTH_LONG).show();
+        //        Toast.makeText(this, "It created", Toast.LENGTH_LONG).show();
 
         if (list1.size() == 0) {
 
             DateDBModel datedbModel = new DateDBModel();
             datedbModel.setDate(getDateTime());
             datedbModel.setAverage_score(30);
+            datedbModel.setDescription(activity_title);
             datedbModel.setPercentage_score((double) measureRating.getRating());
             datedbModel.setActivity_id(activity_id);
 
@@ -178,14 +181,15 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
         } else {
             DateDBModel datedbModel = new DateDBModel();
-//            datedbModel.setDate(getDateTime());
+            //            datedbModel.setDate(getDateTime());
             datedbModel.setAverage_score(30);
             datedbModel.setPercentage_score(measureRating.getRating());
-//            datedbModel.setActivity_id(activity_id);
 
+            datedbModel.setActivity_id(activity_id);
+            datedbModel.setDescription(edt_description.getText().toString());
             db.updateActivityDate(this, datedbModel);
 
-//            Toast.makeText(this, "It Updates", Toast.LENGTH_LONG).show();
+            //            Toast.makeText(this,edt_description.getText().toString(), Toast.LENGTH_LONG).show();
 
 
         }
@@ -215,7 +219,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
             Column column = new Column(values);
             column.setHasLabels(hasLabels);
-//            column.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            //            column.setHasLabelsOnlyForSelected(hasLabelForSelected);
             columns.add(column);
         }
 
@@ -245,22 +249,18 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.back_arrow:
 
 
-                checkDatePosted();
-                db.updateActivity(updateData());
-
-                db.closeDB();
-//                db.deleteToDo(activity_id);
+                //                db.deleteToDo(activity_id);
                 onBackPressed();
 
 
                 break;
 
             case R.id.fab:
-                Intent openChart = new Intent(this,StatActivity.class);
-                openChart.putExtra(KEY_ACTIVITY_ID,activity_id);
+                Intent openChart = new Intent(this, StatActivity.class);
+                openChart.putExtra(KEY_ACTIVITY_ID, activity_id);
                 startActivity(openChart);
 
-//                Toast.makeText(this, String.valueOf(measureRating.getRating()), Toast.LENGTH_LONG).show();
+                //                Toast.makeText(this, String.valueOf(measureRating.getRating()), Toast.LENGTH_LONG).show();
                 break;
 
 
@@ -270,4 +270,14 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        checkDatePosted();
+        db.updateActivity(updateData());
+
+        db.closeDB();
+
+    }
 }

@@ -69,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Create Statements
     // Todo table create statement
     private static final String CREATE_TABLE_MEASURELISTS = "CREATE TABLE " + TABLE_MEASURELISTS
-            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_LIST_NAME + " TEXT," + KEY_PERCENTAGE_BASELINE + " INTEGER,"
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_AVERAGE_SCORE + " REAL," + KEY_LIST_NAME + " TEXT," + KEY_PERCENTAGE_BASELINE + " INTEGER,"
             + KEY_LIST_DATE_ID + " INTEGER,"
             + KEY_CREATED_AT + " DATETIME" + ")";
 
@@ -87,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_DATE_LIST_ACTIVITY = "CREATE TABLE "
             + TABLE_DATE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_LIST_ID + " INTEGER," + KEY_ACTIVITY_ID + " INTEGER," + KEY_PERCENTAGE_PROGRESS + " REAL,"
+            + KEY_LIST_ID + " INTEGER,"  + KEY_DESC + " TEXT," + KEY_ACTIVITY_ID + " INTEGER," + KEY_PERCENTAGE_PROGRESS + " REAL,"
             + KEY_AVERAGE_SCORE + " REAL,"
             + KEY_STORE_DATE + " DATETIME" + ")";
 
@@ -370,7 +370,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 DateDBModel td = new DateDBModel();
                 td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
-//                td.setActivity_id((c.getString(c.getColumnIndex(KEY_DESC))));
+                td.setDescription((c.getString(c.getColumnIndex(KEY_DESC))));
 //                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
                 td.setPercentage_score((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
 //                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
@@ -383,6 +383,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return stored_activities;
     }
+
+
+
+    public List<MeasureActivity> getListOfMeasureActivityWithId(int measureId) {
+        List<MeasureActivity> stored_activities = new ArrayList<MeasureActivity>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM activitiesandlist WHERE activity_id = " + measureId + " ", null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                MeasureActivity td = new MeasureActivity();
+                td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
+                td.setDescription((c.getString(c.getColumnIndex(KEY_DESC))));
+//                td.setAverage_score((c.getInt(c.getColumnIndex(KEY_AVERAGE_SCORE))));
+                td.setPercentage((c.getDouble(c.getColumnIndex(KEY_PERCENTAGE_PROGRESS))));
+//                td.setPercentageBaseline((c.getInt(c.getColumnIndex(KEY_PERCENTAGE_BASELINE))));
+                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_STORE_DATE)));
+
+                // adding to todo list
+                stored_activities.add(td);
+            } while (c.moveToNext());
+        }
+
+        return stored_activities;
+    }
+
+
+
+
+
 
 
     public List<DateDBModel> getAListwithId(int listId) {
@@ -489,11 +521,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 //        values.put(KEY_STORE_DATE, dbmodel.getDate());
 //        values.put(KEY_ACTIVITY_ID, dbmodel.getActivity_id());
-//        values.put(KEY_LIST_ID, todo.getPercentage());
+        values.put(KEY_DESC, dbmodel.getDescription());
         values.put(KEY_AVERAGE_SCORE, dbmodel.getAverage_score());
         values.put(KEY_PERCENTAGE_PROGRESS, dbmodel.getPercentage_score());
 
-//        Toast.makeText(context, String.valueOf(dbmodel.getPercentage_score()), Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, String.valueOf(dbmodel.getDescription()), Toast.LENGTH_LONG).show();
         // updating row
         db.update(TABLE_DATE, values, KEY_ACTIVITY_ID + " = ?",
                 new String[]{String.valueOf(dbmodel.getActivity_id())});
@@ -537,6 +569,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MEASUREACTIVITIES, KEY_ID + "=?",
                 new String[]{String.valueOf(measureActivityId)});
+    }
+
+    public void deleteList(String listName,int listId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MEASURELISTS, KEY_ID + "=?",
+                new String[]{String.valueOf(listId)});
+        db.delete(TABLE_MEASUREACTIVITIES, KEY_LIST_NAME + "=?",
+                new String[]{listName});
     }
 
 }

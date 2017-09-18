@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/two_fifty"
+    android:layout_height="wrap_content"
     android:background="#ffffffff"
 
     >
@@ -47,6 +47,7 @@
         android:layout_below="@+id/description"
         android:layout_marginLeft="@dimen/twenty"
         android:layout_marginRight="@dimen/twenty"
+        android:maxLines="3"
 
         />
 
@@ -54,9 +55,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/fifty"
-        android:layout_alignParentBottom="true"
         android:text="TEXTO"
         android:id="@+id/text_dialog"
+        android:layout_marginTop="@dimen/fifty"
+        android:layout_below="@+id/edt_action_track_name"
         android:orientation="horizontal"
         android:weightSum="100"
         >
@@ -68,21 +70,21 @@
             android:id="@+id/btn_dialog"
             android:gravity="center_vertical|center_horizontal"
             android:layout_below="@+id/text_dialog"
-
             android:layout_weight="50"
             android:layout_centerHorizontal="true"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffff" />
 
 
-        <TextView
-            android:id="@+id/txt_create"
+        <Button
+            android:id="@+id/btn_create"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="50"
             android:text="CREATE"
             android:layout_gravity="center"
             android:gravity="center"
-
+            android:textColor="#fff"
+            android:backgroundTint="@color/colorAccent"
             />
 
         </LinearLayout>

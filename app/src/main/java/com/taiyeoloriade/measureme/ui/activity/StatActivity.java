@@ -132,10 +132,12 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
 
         BarData data = new BarData(dataset);
         bar_chart.setData(data);
+        bar_chart.setScaleMinima(numColumns + 3, 5);
         XAxis xAxis = bar_chart.getXAxis();
         xAxis.setDrawLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+
         xAxis.setValueFormatter(new MyXAxisValueFormatter(labels));
 
 
@@ -192,10 +194,10 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
-            if(mValues.length>1){
+            if (mValues.length > 1) {
 
-                return mValues[(int) value-1];
-            }else{
+                return mValues[(int) value - 1];
+            } else {
 
                 return mValues[0];
             }

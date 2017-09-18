@@ -1,0 +1,42 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.alc.ljv.ui.activity.MainActivity">
+
+
+
+    <item
+        android:id="@+id/delete_list"
+        android:orderInCategory="100"
+        android:title="Delete List"
+        app:showAsAction="never" />
+
+    <!--<item-->
+        <!--android:id="@+id/action_githubAudio"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="Github.Audio"-->
+        <!--app:showAsAction="never" />-->
+
+
+
+    <!--<item-->
+        <!--android:id="@+id/action_filter"-->
+        <!--android:title="sort"-->
+        <!--android:icon="@drawable/ic_sort_white_24dp"-->
+        <!--app:showAsAction="always">-->
+        <!--<menu>-->
+
+            <!--<item-->
+                <!--android:id="@+id/sortbyRepositories"-->
+                <!--android:title="Sort by Repos" />-->
+
+            <!--<item-->
+                <!--android:id="@+id/sortbyFollowers"-->
+                <!--android:title="Sort by Followers" />-->
+
+
+        <!--</menu>-->
+    <!--</item>-->
+
+
+</menu>

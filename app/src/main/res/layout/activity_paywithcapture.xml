@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@color/black" />
+
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/seventy"
+        android:layout_height="@dimen/seventy"
+        android:layout_above="@+id/viewPager"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-35dp"
+        android:src="@color/white"
+        android:textSize="@dimen/thirty"
+        android:textStyle="bold" />
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/two_fifty"
+        android:layout_above="@+id/layoutDots"
+        android:layout_marginBottom="@dimen/ten"
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginRight="@dimen/twenty"
+        android:background="@drawable/viewpager_border"
+        android:overScrollMode="never"
+
+        >
+
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/layoutDots"
+        android:layout_width="@dimen/two_fifty"
+        android:layout_height="@dimen/dots_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/seventy"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        >
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_tutorial_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/thirty"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/twenty"
+        android:background="@drawable/viewpager_border"
+        android:text="GOT IT"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+
+        />
+
+
+</RelativeLayout>

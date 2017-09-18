@@ -13,7 +13,6 @@ import android.support.v4.app.NotificationCompat;
 import com.taiyeoloriade.measureme.R;
 import com.taiyeoloriade.measureme.utility.NotificationID;
 
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
